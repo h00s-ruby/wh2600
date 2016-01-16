@@ -1,0 +1,15 @@
+*.iml
+*.iws
+*.ipr
+.bundle
+.idea/
+attachments/
+db/*.sqlite3
+log/*.log
+tmp/**/*
+config/database.yml
+config/secrets.yml
+.sass-cache/
+atlassian-ide-plugin.xml
+out/
+*.gem
