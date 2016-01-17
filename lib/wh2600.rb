@@ -2,14 +2,15 @@ require 'nokogiri'
 require 'open-uri'
 
 class Wh2600
-  def initialize(ip_address)
+  def initialize(ip_address, time_zone='CET')
     @ip_address = ip_address
+    @time_zone = time_zone
   end
 
   def get_data(live_data_uri='livedata.htm')
     data = {}
     data_html = Nokogiri::HTML(open_page(live_data_uri))
-    data['receiver_datetime'] = DateTime.strptime(data_html.at_xpath('//input[@name="CurrTime"]')['value'], '%H:%M %m/%d/%Y')
+    data['receiver_datetime'] = DateTime.strptime(data_html.at_xpath('//input[@name="CurrTime"]')['value'] << @time_zone , '%H:%M %m/%d/%Y%Z')
     data['sensors'] = {}
     data['sensors']['indoor_id'] = data_html.at_xpath('//input[@name="IndoorID"]').attr('value')
     data['sensors']['outdoor1_id'] = data_html.at_xpath('//input[@name="Outdoor1ID"]').attr('value')
