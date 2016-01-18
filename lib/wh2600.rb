@@ -2,15 +2,14 @@ require 'nokogiri'
 require 'open-uri'
 
 class Wh2600
-  def initialize(ip_address, time_zone='CET')
+  def initialize(ip_address)
     @ip_address = ip_address
-    @time_zone = time_zone
   end
 
   def get_data(live_data_uri='livedata.htm')
     data = {}
     data_html = Nokogiri::HTML(open_page(live_data_uri))
-    data['receiver_datetime'] = DateTime.strptime(data_html.at_xpath('//input[@name="CurrTime"]')['value'] << @time_zone , '%H:%M %m/%d/%Y%Z')
+    data['station_datetime'] = Time.strptime(data_html.at_xpath('//input[@name="CurrTime"]').attr('value'), '%H:%M %m/%d/%Y')
     data['sensors'] = {}
     data['sensors']['indoor_id'] = data_html.at_xpath('//input[@name="IndoorID"]').attr('value')
     data['sensors']['outdoor1_id'] = data_html.at_xpath('//input[@name="Outdoor1ID"]').attr('value')
@@ -32,12 +31,12 @@ class Wh2600
     data['solar']['radiation'] = data_html.at_xpath('//input[@name="solarrad"]').attr('value').to_f
     data['solar']['uv'] = data_html.at_xpath('//input[@name="uv"]').attr('value').to_f
     data['solar']['uvi'] = data_html.at_xpath('//input[@name="uvi"]').attr('value').to_f
-    data['rain'] = {}
-    data['rain']['hourly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
-    data['rain']['daily'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
-    data['rain']['weekly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
-    data['rain']['monthly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
-    data['rain']['yearly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
+    data['rainfall'] = {}
+    data['rainfall']['hourly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
+    data['rainfall']['daily'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
+    data['rainfall']['weekly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
+    data['rainfall']['monthly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
+    data['rainfall']['yearly'] = data_html.at_xpath('//input[@name="rainofhourly"]').attr('value').to_f
     return data
   end
 
