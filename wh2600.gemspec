@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'wh2600'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
   s.date = '2016-01-17'
   s.summary = 'Ruby gem for retrieving live data from Renkforce WH2600 weather station'
   s.description = 'Ruby gem for retrieving live data from Conrad Renkforce WH2600 / FOSHK WH2600 / Froggit WH2601 / Ambient Weather WS-1400 weather station'
